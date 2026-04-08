@@ -247,36 +247,40 @@
       flex-direction: column;
     }
     .back-header {
-      background: var(--deep2);
+      background: #1a0d06;
       padding: 30px 24px 26px;
       text-align: center;
       position: relative;
       overflow: hidden;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
     }
     .back-header img.cover-small {
       position: absolute;
-      inset: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.05;
+      opacity: 0.04;
+      z-index: 0;
     }
     .back-header-dark-overlay {
       position: absolute;
-      inset: 0;
-      background: rgba(10, 5, 2, 0.78);
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(12, 6, 2, 0.82);
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
     }
     /* Geometric pattern overlay on back-header */
     .back-header .geo-pattern {
       position: absolute;
-      inset: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       opacity: 0.06;
       background-image:
         repeating-linear-gradient(45deg, var(--gold) 0px, var(--gold) 1px, transparent 1px, transparent 12px),
         repeating-linear-gradient(-45deg, var(--gold) 0px, var(--gold) 1px, transparent 1px, transparent 12px);
       pointer-events: none;
+      z-index: 2;
     }
     /* Gold border top accent */
     .back-header::before {
@@ -285,8 +289,9 @@
       top: 0; left: 0; right: 0;
       height: 2px;
       background: linear-gradient(to right, transparent, var(--gold), var(--gold-shine), var(--gold), transparent);
+      z-index: 4;
     }
-    .back-header-content { position: relative; z-index: 2; }
+    .back-header-content { position: relative; z-index: 3; }
     .back-header .bismillah {
       font-family: 'Amiri', serif;
       font-size: 20px;
