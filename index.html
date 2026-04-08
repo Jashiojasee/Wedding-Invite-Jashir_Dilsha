@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jashir & Dilsha — Wedding Invitation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;500&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a96e;
+      --gold-light: #e8d5a3;
+      --gold-dark: #8a6a35;
+      --gold-shine: #f5e6bc;
+      --cream: #fdf8f0;
+      --cream-dark: #f5ede0;
+      --deep: #120b05;
+      --deep2: #1e1008;
+      --rose: #b76e79;
+      --rose-light: #d4a0aa;
+      --text-dark: #2c1a0e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--deep);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: hidden;
+    }
+
+    /* ── Particle canvas ── */
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Page wrapper ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      padding: 20px 16px 60px;
+    }
+
+    /* ══ ENVELOPE ══ */
+    #envelope-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at center, #2a1a0e 0%, #0a0502 100%);
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+    #envelope-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .env-bismillah {
+      font-family: 'Amiri', serif;
+      font-size: 22px;
+      color: var(--gold);
+      opacity: 0.8;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    .envelope-wrap {
+      position: relative;
+      width: 300px;
+      cursor: pointer;
+      animation: floatEnv 3s ease-in-out infinite;
+    }
+    @keyframes floatEnv {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+    .envelope-wrap svg { width: 100%; filter: drop-shadow(0 24px 50px rgba(201,169,110,0.5)); }
+    .env-tap {
+      margin-top: 36px;
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      opacity: 0.75;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+    /* ══ FLIP CARD ══ */
+    .flip-container {
+      width: 100%;
+      perspective: 1600px;
+      margin-bottom: 24px;
+      cursor: pointer;
+    }
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      padding-top: 145%;
+      transform-style: preserve-3d;
+      transition: transform 1.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+    }
+    .flip-inner.flipped { transform: rotateY(180deg); }
+    .flip-front, .flip-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .flip-back { transform: rotateY(180deg); }
+
+    /* ── Front face ── */
+    .flip-front { background: #0a0502; }
+    .flip-front img.cover-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+    }
+    .flip-front .front-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(5,2,1,0.35) 0%,
+        rgba(5,2,1,0.0) 25%,
+        rgba(5,2,1,0.0) 50%,
+        rgba(5,2,1,0.6) 80%,
+        rgba(5,2,1,0.95) 100%
+      );
+    }
+    /* Gold border on front */
+    .flip-front::after {
+      content: '';
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(201,169,110,0.3);
+      pointer-events: none;
+      z-index: 5;
+    }
+    .flip-front .front-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 36px 28px 32px;
+      z-index: 4;
+    }
+    .front-top { text-align: center; }
+    .front-top .invite-label {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 6px;
+      color: var(--gold-light);
+      opacity: 0.9;
+      margin-bottom: 12px;
+    }
+    .front-top .arabic-top {
+      font-family: 'Amiri', serif;
+      font-size: 18px;
+      color: var(--gold);
+      opacity: 0.85;
+      margin-bottom: 10px;
+      direction: rtl;
+    }
+    .front-top .monogram {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 90px;
+      font-weight: 300;
+      color: var(--gold-light);
+      line-height: 1;
+      text-shadow: 0 0 60px rgba(201,169,110,0.6), 0 0 20px rgba(201,169,110,0.3);
+    }
+    .front-top .divider-ornament {
+      margin: 14px auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    .front-top .divider-ornament span { display: block; }
+    .front-top .divider-ornament .line {
+      width: 70px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .front-top .divider-ornament .line.r {
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+    .front-top .divider-ornament .diamond {
+      width: 7px; height: 7px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+    .front-top .names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 54px;
+      font-weight: 300;
+      font-style: italic;
+      color: #fff;
+      line-height: 1.1;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.7);
+    }
+    .front-bottom { text-align: center; }
+    .front-bottom .date-chip {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: var(--gold-shine);
+      border: 1px solid rgba(201,169,110,0.5);
+      padding: 9px 24px;
+      border-radius: 2px;
+      margin-bottom: 14px;
+      display: inline-block;
+      background: rgba(201,169,110,0.07);
+      text-shadow: 0 0 12px rgba(201,169,110,0.4);
+    }
+    .front-bottom .tap-hint {
+      font-size: 9px;
+      letter-spacing: 4px;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      animation: pulse 2.5s infinite;
+    }
+
+    /* ── Back face ── */
+    .flip-back {
+      background: var(--cream);
+      display: flex;
+      flex-direction: column;
+    }
+    .back-header {
+      background: var(--deep2);
+      padding: 30px 24px 26px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .back-header img.cover-small {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.2;
+    }
+    /* Geometric pattern overlay on back-header */
+    .back-header .geo-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      background-image:
+        repeating-linear-gradient(45deg, var(--gold) 0px, var(--gold) 1px, transparent 1px, transparent 12px),
+        repeating-linear-gradient(-45deg, var(--gold) 0px, var(--gold) 1px, transparent 1px, transparent 12px);
+      pointer-events: none;
+    }
+    /* Gold border top accent */
+    .back-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), var(--gold-shine), var(--gold), transparent);
+    }
+    .back-header-content { position: relative; z-index: 1; }
+    .back-header .bismillah {
+      font-family: 'Amiri', serif;
+      font-size: 20px;
+      color: var(--gold);
+      direction: rtl;
+      margin-bottom: 10px;
+      opacity: 0.9;
+    }
+    .back-header .wl {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 5px;
+      color: var(--gold-light);
+      opacity: 0.65;
+      margin-bottom: 10px;
+    }
+    .back-header .bh-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 46px;
+      font-style: italic;
+      color: #fff;
+      line-height: 1;
+      text-shadow: 0 0 30px rgba(201,169,110,0.3);
+    }
+    .back-header .amp { color: var(--gold); }
+    .back-header .bh-sub {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+
+    .back-body {
+      flex: 1;
+      padding: 24px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: linear-gradient(to bottom, var(--cream) 0%, #faf2e5 100%);
+    }
+
+    /* Arabic verse block */
+    .arabic-verse-block {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(201,169,110,0.07) 0%, rgba(201,169,110,0.03) 100%);
+      border: 1px solid rgba(201,169,110,0.25);
+      border-radius: 3px;
+      padding: 16px 14px 14px;
+      position: relative;
+    }
+    .arabic-verse-block::before, .arabic-verse-block::after {
+      content: '';
+      position: absolute;
+      width: 8px; height: 8px;
+      border: 1px solid var(--gold);
+      opacity: 0.5;
+    }
+    .arabic-verse-block::before { top: 5px; left: 5px; border-right: none; border-bottom: none; }
+    .arabic-verse-block::after { bottom: 5px; right: 5px; border-left: none; border-top: none; }
+    .arabic-verse {
+      font-family: 'Amiri', serif;
+      font-size: 17px;
+      color: var(--text-dark);
+      direction: rtl;
+      line-height: 2;
+      margin-bottom: 10px;
+    }
+    .verse-ref {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 3px;
+      color: var(--gold-dark);
+      margin-bottom: 8px;
+    }
+    .invitation-verse {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      font-style: italic;
+      color: #7a5a40;
+      line-height: 1.7;
+    }
+
+    /* Detail blocks */
+    .detail-block {
+      border-left: 2px solid var(--gold);
+      padding: 10px 0 10px 16px;
+    }
+    .detail-block .db-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 4px;
+      color: var(--gold-dark);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .detail-block .db-main {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      color: var(--text-dark);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      font-variant-numeric: lining-nums;
+      font-feature-settings: "lnum" 1, "onum" 0, "liga" 0;
+    }
+    .detail-block .db-main .highlight-num {
+      color: #3a1f0a;
+      font-size: 36px;
+      font-variant-numeric: lining-nums;
+      font-feature-settings: "lnum" 1, "onum" 0, "liga" 0;
+    }
+    .detail-block .db-sub {
+      font-size: 10px;
+      color: #8a6040;
+      letter-spacing: 2px;
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+
+    .details-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .ornament-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 2px 0;
+    }
+    .ornament-divider .ol { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(201,169,110,0.5)); }
+    .ornament-divider .or { flex: 1; height: 1px; background: linear-gradient(to left, transparent, rgba(201,169,110,0.5)); }
+    .ornament-divider .oc { font-size: 13px; color: var(--gold); }
+
+    /* ══ SECTIONS ══ */
+    /* Countdown */
+    .countdown-section {
+      background: linear-gradient(135deg, #160c05 0%, #0d0604 100%);
+      border: 1px solid rgba(201,169,110,0.25);
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+    }
+    .countdown-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .countdown-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .cs-label {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      margin-bottom: 22px;
+      opacity: 0.9;
+    }
+    /* Arabic countdown label */
+    .cs-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 14px;
+      color: var(--gold-light);
+      opacity: 0.55;
+      margin-top: -16px;
+      margin-bottom: 18px;
+      direction: rtl;
+    }
+    .countdown-grid {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    .cd-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cd-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px;
+      font-weight: 300;
+      color: var(--gold-light);
+      line-height: 1;
+      min-width: 68px;
+      text-align: center;
+      text-shadow: 0 0 20px rgba(201,169,110,0.3);
+    }
+    .cd-lbl {
+      font-size: 8px;
+      letter-spacing: 3px;
+      color: rgba(255,255,255,0.35);
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+    .cd-sep {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px;
+      color: rgba(201,169,110,0.4);
+      line-height: 1;
+      align-self: flex-start;
+      margin-top: 8px;
+    }
+
+    /* Map section */
+    .map-section {
+      background: linear-gradient(135deg, #160c05 0%, #0d0604 100%);
+      border: 1px solid rgba(201,169,110,0.25);
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+    .map-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .map-section .ms-inner { padding: 26px 22px; }
+    .map-section .ms-label {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .map-section .ms-venue {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      color: #fff;
+      font-style: italic;
+      margin-bottom: 4px;
+      text-shadow: 0 0 20px rgba(201,169,110,0.2);
+    }
+    .map-section .ms-addr {
+      font-size: 10px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .map-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 10px 24px;
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .map-btn:hover { background: var(--gold); color: var(--deep); }
+
+    /* Dua section */
+    .dua-section {
+      background: linear-gradient(135deg, #160c05 0%, #0d0604 100%);
+      border: 1px solid rgba(201,169,110,0.2);
+      border-radius: 3px;
+      padding: 26px 22px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .dua-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .dua-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+    .dua-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 20px;
+      color: var(--gold-light);
+      direction: rtl;
+      line-height: 1.9;
+      margin-bottom: 12px;
+    }
+    .dua-english {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+    }
+
+    /* Footer */
+    .footer-section {
+      text-align: center;
+      padding: 32px 20px 12px;
+      position: relative;
+    }
+    .footer-section .fs-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 22px;
+      color: var(--gold);
+      direction: rtl;
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+    .footer-section .fs-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 34px;
+      font-style: italic;
+      color: var(--gold-light);
+      text-shadow: 0 0 30px rgba(201,169,110,0.3);
+    }
+    .footer-section .fs-msg {
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 2px;
+      margin-top: 12px;
+      line-height: 1.9;
+    }
+    .footer-ornament {
+      font-size: 18px;
+      color: var(--gold-dark);
+      margin: 16px 0;
+      letter-spacing: 8px;
+    }
+
+    /* ══ BACK BODY — BLESSINGS ══ */
+    .blessings-block {
+      text-align: center;
+      padding: 4px 0;
+    }
+    .blessings-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 4px;
+      color: var(--gold-dark);
+      margin-bottom: 10px;
+    }
+    .blessings-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--text-dark);
+      line-height: 1.9;
+    }
+    .blessings-place {
+      font-size: 10px;
+      color: #9a7a60;
+      letter-spacing: 2px;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+    .blessings-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 15px;
+      color: var(--gold-dark);
+      direction: rtl;
+      margin-top: 8px;
+      opacity: 0.85;
+    }
+
+    /* ══ FADE-UP ══ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══ MUSIC TOGGLE ══ */
+    .music-toggle {
+      position: fixed;
+      bottom: 22px;
+      right: 18px;
+      z-index: 50;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(201,169,110,0.12);
+      border: 1px solid rgba(201,169,110,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+    .music-toggle:hover { background: rgba(201,169,110,0.25); }
+    .music-toggle .bar-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 18px;
+    }
+    .music-toggle .bar {
+      width: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+      animation: musicBar 0.8s ease-in-out infinite alternate;
+    }
+    .music-toggle .bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+    .music-toggle .bar:nth-child(2) { height: 14px; animation-delay: 0.15s; }
+    .music-toggle .bar:nth-child(3) { height: 10px; animation-delay: 0.3s; }
+    .music-toggle .bar:nth-child(4) { height: 6px; animation-delay: 0.1s; }
+    .music-toggle.paused .bar { animation-play-state: paused; opacity: 0.35; }
+    @keyframes musicBar {
+      from { transform: scaleY(0.35); }
+      to   { transform: scaleY(1); }
+    }
+
+    /* Responsive */
+    @media (max-width: 360px) {
+      .front-top .names { font-size: 44px; }
+      .front-top .monogram { font-size: 72px; }
+      .cd-num { font-size: 40px; min-width: 52px; }
+      .detail-block .db-main { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- ═══ ENVELOPE SCREEN ═══ -->
+<div id="envelope-screen" onclick="openEnvelope()">
+  <div class="env-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+  <div class="envelope-wrap">
+    <svg viewBox="0 0 300 210" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="envGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2e1c0f"/>
+          <stop offset="100%" stop-color="#1a0f08"/>
+        </linearGradient>
+        <linearGradient id="flapGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#3d2812"/>
+          <stop offset="100%" stop-color="#2a1a0e"/>
+        </linearGradient>
+        <linearGradient id="sealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2a1a0e"/>
+          <stop offset="100%" stop-color="#160c05"/>
+        </linearGradient>
+      </defs>
+      <!-- envelope body -->
+      <rect x="4" y="65" width="292" height="140" rx="4" fill="url(#envGrad)" stroke="#c9a96e" stroke-width="1.2"/>
+      <!-- inner folds -->
+      <polygon points="4,205 150,132 296,205" fill="#1c1006" stroke="#c9a96e" stroke-width="0.6" opacity="0.8"/>
+      <polygon points="4,65 4,205 78,135" fill="#261606" stroke="#c9a96e" stroke-width="0.6" opacity="0.8"/>
+      <polygon points="296,65 296,205 222,135" fill="#261606" stroke="#c9a96e" stroke-width="0.6" opacity="0.8"/>
+      <!-- top flap -->
+      <polygon points="4,65 150,138 296,65" fill="url(#flapGrad)" stroke="#c9a96e" stroke-width="1.2"/>
+      <!-- decorative lines -->
+      <line x1="20" y1="86" x2="90" y2="86" stroke="#c9a96e" stroke-width="0.6" opacity="0.45"/>
+      <line x1="210" y1="86" x2="280" y2="86" stroke="#c9a96e" stroke-width="0.6" opacity="0.45"/>
+      <!-- wax seal -->
+      <circle cx="150" cy="112" r="26" fill="url(#sealGrad)" stroke="#c9a96e" stroke-width="1.5"/>
+      <circle cx="150" cy="112" r="21" fill="none" stroke="#c9a96e" stroke-width="0.6" stroke-dasharray="3,2"/>
+      <!-- star points on seal -->
+      <polygon points="150,89 152,105 168,105 155,115 160,131 150,121 140,131 145,115 132,105 148,105" fill="none" stroke="#c9a96e" stroke-width="0.5" opacity="0.4"/>
+      <text x="150" y="107" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="12" fill="#c9a96e" font-style="italic">J</text>
+      <text x="150" y="119" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="9" fill="#c9a96e" letter-spacing="1">&amp;</text>
+      <text x="150" y="131" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="12" fill="#c9a96e" font-style="italic">D</text>
+    </svg>
+  </div>
+  <p class="env-tap">✦ &nbsp; TAP TO OPEN &nbsp; ✦</p>
+</div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div class="page" id="main-content" style="opacity:0; transition: opacity 1s ease 0.3s;">
+
+  <!-- FLIP CARD -->
+  <div class="flip-container fade-up" id="flip-card" onclick="this.querySelector('.flip-inner').classList.toggle('flipped')">
+    <div class="flip-inner" id="flip-inner">
+
+      <!-- FRONT -->
+      <div class="flip-front">
+        <img src="invite.png" class="cover-photo" alt="Invitation">
+        <div class="front-overlay"></div>
+        <div class="front-content">
+          <div class="front-top">
+            <div class="invite-label">Wedding Invitation</div>
+            <div class="monogram">J&amp;D</div>
+            <div class="divider-ornament">
+              <span class="line"></span>
+              <span class="diamond"></span>
+              <span class="line r"></span>
+            </div>
+            <div class="names">Jashir<br>&amp; Dilsha</div>
+          </div>
+          <div class="front-bottom">
+            <div class="date-chip">Monday &nbsp;·&nbsp; May&nbsp;11 &nbsp;·&nbsp; 2026</div>
+            <div class="tap-hint">✦ tap to reveal ✦</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BACK -->
+      <div class="flip-back">
+        <div class="back-header">
+          <img class="cover-small" src="invite.png" alt="">
+          <div class="geo-pattern"></div>
+          <div class="back-header-content">
+            <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+            <div class="wl">Together with their families</div>
+            <div class="bh-names">Jashir <span class="amp">&amp;</span> Dilsha</div>
+            <div class="bh-sub">Request the honour of your presence</div>
+          </div>
+        </div>
+
+        <div class="back-body">
+
+          <div class="ornament-divider">
+            <div class="ol"></div>
+            <div class="oc">✦</div>
+            <div class="or"></div>
+          </div>
+
+          <!-- Date & Time with fixed "11" visibility -->
+          <div class="details-row">
+            <div class="detail-block">
+              <div class="db-label">Date</div>
+              <div class="db-main">May <span class="highlight-num">11</span></div>
+              <div class="db-sub">Monday · 2026</div>
+            </div>
+            <div class="detail-block">
+              <div class="db-label">Time</div>
+              <div class="db-main"><span class="highlight-num">11</span>:00</div>
+              <div class="db-sub">Morning · AM</div>
+            </div>
+          </div>
+
+          <div class="detail-block">
+            <div class="db-label">Venue</div>
+            <div class="db-main" style="font-size:22px;">EK Convention</div>
+            <div class="db-sub">Karad · Malappuram · Kerala</div>
+          </div>
+
+          <div class="ornament-divider">
+            <div class="ol"></div>
+            <div class="oc">✦</div>
+            <div class="or"></div>
+          </div>
+
+          <!-- Blessings block -->
+          <div class="blessings-block">
+            <div class="blessings-label">With Blessings From</div>
+            <div class="blessings-text">
+              Both Families
+            </div>
+            <div class="blessings-place">Karad · Malappuram</div>
+            <div class="blessings-arabic">بارك الله لكما وبارك عليكما</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /flip-inner -->
+  </div><!-- /flip-container -->
+
+  <!-- COUNTDOWN -->
+  <div class="countdown-section fade-up">
+    <div class="cs-label">✦ &nbsp; Counting Down to Forever &nbsp; ✦</div>
+    <div class="cs-arabic">العد التنازلي حتى اللقاء</div>
+    <div class="countdown-grid">
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-days">--</div>
+        <div class="cd-lbl">Days</div>
+      </div>
+      <div class="cd-sep">·</div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-hours">--</div>
+        <div class="cd-lbl">Hours</div>
+      </div>
+      <div class="cd-sep">·</div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-mins">--</div>
+        <div class="cd-lbl">Mins</div>
+      </div>
+      <div class="cd-sep">·</div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-secs">--</div>
+        <div class="cd-lbl">Secs</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:16px;"></div>
+
+  <!-- LOCATION -->
+  <div class="map-section fade-up">
+    <div class="ms-inner">
+      <div class="ms-label">✦ &nbsp; Ceremony Venue</div>
+      <div class="ms-venue">EK Convention Center</div>
+      <div class="ms-addr">Karad &nbsp;·&nbsp; Malappuram &nbsp;·&nbsp; Kerala</div>
+      <a class="map-btn" href="https://maps.app.goo.gl/S3qvGoQswR23BxVu7" target="_blank">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        View on Map
+      </a>
+    </div>
+  </div>
+
+  <div style="height:16px;"></div>
+
+  <!-- DUA / BLESSINGS SECTION -->
+  <div class="dua-section fade-up">
+    <div class="dua-label">✦ &nbsp; A Prayer for the Couple &nbsp; ✦</div>
+    <div class="dua-arabic">
+      بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ<br>وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+    </div>
+    <div class="dua-english">
+      May Allah bless you and bestow His blessings upon you,<br>and unite you both in goodness.
+    </div>
+  </div>
+
+  <div style="height:16px;"></div>
+
+  <!-- FOOTER -->
+  <div class="footer-section fade-up">
+    <div class="footer-ornament">✦ &nbsp; ◆ &nbsp; ✦</div>
+    <div class="fs-arabic">مَوَدَّةٌ وَرَحْمَةٌ</div>
+    <div class="fs-names">Jashir &amp; Dilsha</div>
+    <div class="fs-msg">We look forward to celebrating<br>this beautiful beginning with you.</div>
+    <div style="height:20px;"></div>
+    <div style="font-family:'Cinzel',serif; font-size:8px; letter-spacing:4px; color:rgba(255,255,255,0.18);">11 · 05 · 2026</div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- Music toggle -->
+<div class="music-toggle" id="music-toggle" onclick="toggleMusic()">
+  <div class="bar-group">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+</div>
+
+<audio id="bg-music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// ── Particles — gold dust + rose petals
+const canvas = document.getElementById('particles');
+const ctx    = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resizeCanvas() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function Particle() {
+  this.x      = Math.random() * W;
+  this.y      = Math.random() * H;
+  this.type   = Math.random() < 0.85 ? 'dust' : 'petal'; // 15% petals
+  this.size   = this.type === 'petal' ? Math.random() * 3.5 + 2 : Math.random() * 1.6 + 0.3;
+  this.speedY = -(Math.random() * 0.35 + 0.08);
+  this.speedX = (Math.random() - 0.5) * 0.3;
+  this.opacity= Math.random() * 0.55 + 0.1;
+  this.life   = Math.random() * 220 + 120;
+  this.age    = 0;
+  this.angle  = Math.random() * Math.PI * 2;
+  this.spin   = (Math.random() - 0.5) * 0.03;
+}
+
+for (let i = 0; i < 100; i++) particles.push(new Particle());
+
+function animParticles() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach((p, i) => {
+    p.age++;
+    p.y    += p.speedY;
+    p.x    += p.speedX;
+    p.angle += p.spin;
+    const fade = Math.min(p.age / 30, 1) * Math.min((p.life - p.age) / 30, 1);
+
+    if (p.type === 'petal') {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.size, p.size * 0.5, 0, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(183,110,121,${p.opacity * fade * 0.7})`;
+      ctx.fill();
+      ctx.restore();
+    } else {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,169,110,${p.opacity * fade})`;
+      ctx.fill();
+    }
+
+    if (p.age >= p.life || p.y < -10) particles[i] = new Particle();
+  });
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+
+// ── Envelope open
+function openEnvelope() {
+  const env  = document.getElementById('envelope-screen');
+  const main = document.getElementById('main-content');
+  env.classList.add('hidden');
+  main.style.opacity = '1';
+  setTimeout(revealSections, 400);
+  document.getElementById('bg-music').play().catch(() => {});
+}
+
+// ── Scroll reveal
+function revealSections() {
+  const els      = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  els.forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.14) + 's';
+    observer.observe(el);
+  });
+}
+
+// ── Countdown
+const weddingDate = new Date('2026-05-11T11:00:00+05:30');
+function updateCountdown() {
+  const now  = new Date();
+  let diff   = weddingDate - now;
+  if (diff < 0) { document.querySelector('.cs-label').textContent = '✦  The Day Has Arrived  ✦'; return; }
+  const d = Math.floor(diff / 86400000); diff %= 86400000;
+  const h = Math.floor(diff / 3600000);  diff %= 3600000;
+  const m = Math.floor(diff / 60000);    diff %= 60000;
+  const s = Math.floor(diff / 1000);
+  document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
+  document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
+  document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ── Music
+let playing   = false;
+const audio   = document.getElementById('bg-music');
+const musicBtn= document.getElementById('music-toggle');
+function toggleMusic() {
+  if (playing) { audio.pause(); musicBtn.classList.add('paused'); playing = false; }
+  else         { audio.play().catch(()=>{}); musicBtn.classList.remove('paused'); playing = true; }
+}
+audio.addEventListener('play',  () => { playing = true;  musicBtn.classList.remove('paused'); });
+audio.addEventListener('pause', () => { playing = false; musicBtn.classList.add('paused'); });
+musicBtn.classList.add('paused');
+</script>
+</body>
+</html>
