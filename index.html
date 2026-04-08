@@ -728,12 +728,58 @@
       to   { transform: scaleY(1); }
     }
 
-    /* Responsive */
-    @media (max-width: 360px) {
+    /* ══ MOBILE FLIP CARD FIX ══ */
+    @media (max-width: 480px) {
+      /* Let flip-inner height be auto so back face isn't clipped */
+      .flip-inner {
+        padding-top: 0 !important;
+        height: auto !important;
+        display: block;
+      }
+      /* Front: fixed portrait height */
+      .flip-front {
+        position: relative !important;
+        inset: auto !important;
+        height: 580px;
+        width: 100%;
+        display: block;
+      }
+      /* Back: auto height, hidden until flipped */
+      .flip-back {
+        position: relative !important;
+        inset: auto !important;
+        width: 100%;
+        height: auto !important;
+        overflow: visible !important;
+        transform: none !important;
+        display: none !important;
+        backface-visibility: visible !important;
+        -webkit-backface-visibility: visible !important;
+      }
+      /* When flipped: swap which face shows */
+      .flip-inner.flipped .flip-front { display: none !important; }
+      .flip-inner.flipped .flip-back  { display: flex !important; }
+      /* Suppress 3D rotation on mobile (we're doing show/hide instead) */
+      .flip-inner { transform: none !important; transition: none !important; }
+      .flip-inner.flipped { transform: none !important; }
+      /* Tighten up back header/body for small screens */
+      .back-header { padding: 22px 18px 20px; }
+      .back-header .bh-names { font-size: 36px; }
+      .back-body { padding: 18px 16px 18px; gap: 14px; }
+      .detail-block .db-main { font-size: 26px; }
+      .detail-block .db-main .highlight-num { font-size: 30px; }
+      /* Front size adjustments */
       .front-top .names { font-size: 44px; }
       .front-top .monogram { font-size: 72px; }
+    }
+
+    @media (max-width: 360px) {
+      .front-top .names { font-size: 38px; }
+      .front-top .monogram { font-size: 62px; }
       .cd-num { font-size: 40px; min-width: 52px; }
-      .detail-block .db-main { font-size: 26px; }
+      .detail-block .db-main { font-size: 22px; }
+      .detail-block .db-main .highlight-num { font-size: 26px; }
+      .back-header .bh-names { font-size: 30px; }
     }
   </style>
 </head>
