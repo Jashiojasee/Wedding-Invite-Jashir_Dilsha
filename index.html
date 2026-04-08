@@ -213,9 +213,9 @@
       font-size: 54px;
       font-weight: 300;
       font-style: italic;
-      color: #fff;
+      color: var(--gold-shine);
       line-height: 1.1;
-      text-shadow: 0 2px 24px rgba(0,0,0,0.7);
+      text-shadow: 0 2px 24px rgba(201,169,110,0.5), 0 0 40px rgba(201,169,110,0.25);
     }
     .front-bottom { text-align: center; }
     .front-bottom .date-chip {
@@ -259,7 +259,14 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.2;
+      opacity: 0.05;
+    }
+    .back-header-dark-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 5, 2, 0.78);
+      pointer-events: none;
+      z-index: 0;
     }
     /* Geometric pattern overlay on back-header */
     .back-header .geo-pattern {
@@ -279,7 +286,7 @@
       height: 2px;
       background: linear-gradient(to right, transparent, var(--gold), var(--gold-shine), var(--gold), transparent);
     }
-    .back-header-content { position: relative; z-index: 1; }
+    .back-header-content { position: relative; z-index: 2; }
     .back-header .bismillah {
       font-family: 'Amiri', serif;
       font-size: 20px;
@@ -805,6 +812,7 @@
       <div class="flip-back">
         <div class="back-header">
           <img class="cover-small" src="invite.png" alt="">
+          <div class="back-header-dark-overlay"></div>
           <div class="geo-pattern"></div>
           <div class="back-header-content">
             <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
@@ -854,7 +862,7 @@
             <div class="blessings-text">
               Both Families
             </div>
-            <div class="blessings-place">Karad · Malappuram</div>
+            <div class="blessings-place">Kakkove</div>
             <div class="blessings-arabic">بارك الله لكما وبارك عليكما</div>
           </div>
 
@@ -943,7 +951,7 @@
   </div>
 </div>
 
-<audio id="bg-music" loop>
+<audio id="bg-music">
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
